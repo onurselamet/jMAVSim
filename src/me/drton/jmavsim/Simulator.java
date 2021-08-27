@@ -109,7 +109,7 @@ public class Simulator implements Runnable {
     public static Double DEFAULT_CAM_ROLL_SCAL  =
         1.57;  // channel value to physical movement (+/-90 deg)
 
-    public static String vehicle_model = VEHICLE_MODEL_TS;
+    public static String vehicle_model = VEHICLE_MODEL_MC;
 
     private static int sleepInterval = (int)1e6 / DEFAULT_SIM_RATE;  // Main loop interval, in us
     private static double speedFactor = DEFAULT_SPEED_FACTOR;
@@ -643,7 +643,7 @@ public class Simulator implements Runnable {
     public final static String SPEED_FACTOR_STRING = "-f";
     public final static String LOCKSTEP_STRING = "-lockstep";
     public final static String DISPLAY_ONLY_STRING = "-disponly";
-    public final static String VEHICLE_MODEL_STRING = "-fw or -mc";
+    public final static String VEHICLE_MODEL_STRING = "-fw, -ts or -mc";
     public final static String CMD_STRING =
         "java [-Xmx512m] -cp lib/*:out/production/jmavsim.jar me.drton.jmavsim.Simulator";
     public final static String CMD_STRING_JAR = "java [-Xmx512m] -jar jmavsim_run.jar";
@@ -927,6 +927,8 @@ public class Simulator implements Runnable {
                 vehicle_model = VEHICLE_MODEL_FW;
             } else if (arg.equalsIgnoreCase("-mc")) {
             	vehicle_model = VEHICLE_MODEL_MC;
+            } else if (arg.equalsIgnoreCase("-ts")) {
+            	vehicle_model = VEHICLE_MODEL_TS;
             } else {
                 System.err.println("Unknown flag: " + arg + ", usage: " + USAGE_STRING);
                 return;
@@ -1008,6 +1010,7 @@ public class Simulator implements Runnable {
         System.out.println("      Choose the vehicle model to be displayed.");
         System.out.println("      -mc will display a multicopter, this is the default vehicle.");
         System.out.println("      -fw will display a fixed wing aircraft.");
+        System.out.println("      -ts will display a tailsitter aircraft.");
         System.out.println("");
         System.out.println("Key commands (in the visualizer window):");
         System.out.println("");
