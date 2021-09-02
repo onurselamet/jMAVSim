@@ -49,20 +49,33 @@ public class UDPMavLinkPort extends MAVLinkPort {
         this.debug = debug;
     }
 
-    public void setup(String peerAddress, int peerPort) throws UnknownHostException, IOException {
+    public void setupClient(String peerAddress, int peerPort) throws UnknownHostException, IOException {
         this.peerPort = new InetSocketAddress(peerAddress, peerPort);
         this.bindPort = new InetSocketAddress("0.0.0.0", 0);
         if (debug) {
             System.out.println("peerAddress: " + this.peerPort.toString() + ", bindAddress: " +
                                this.bindPort.toString());
         }
-    }
 
-    public void open() throws IOException {
         channel = DatagramChannel.open();
         channel.socket().bind(bindPort);
         channel.configureBlocking(false);
-        channel.connect(peerPort);
+        channel.connect(this.peerPort);
+    }
+
+    public void setupHost(int peerPort) throws UnknownHostException, IOException {
+        this.bindPort = new InetSocketAddress("0.0.0.0", peerPort);
+        channel = DatagramChannel.open();
+        channel.socket().bind(bindPort);
+        channel.configureBlocking(true);
+        System.out.println("waiting for first message from: " + this.bindPort.toString());
+        this.peerPort = channel.receive(this.rxBuffer);
+        System.out.println("received first message from: " + this.peerPort.toString());
+        channel.configureBlocking(false);
+        channel.connect(this.peerPort);
+    }
+
+    public void open() throws IOException {
         stream = new MAVLinkStream(schema, channel);
         stream.setDebug(debug);
     }

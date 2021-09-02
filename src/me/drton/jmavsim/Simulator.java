@@ -234,7 +234,7 @@ public class Simulator implements Runnable {
         } else {
             UDPMavLinkPort port = new UDPMavLinkPort(schema);
             port.setDebug(DEBUG_MODE);
-            port.setup(autopilotIpAddress, autopilotPort);
+            port.setupHost(autopilotPort);
             if (monitorMessage) {
                 port.setMonitorMessageID(monitorMessageIds);
             }
@@ -264,7 +264,7 @@ public class Simulator implements Runnable {
 
             udpGCMavLinkPort = new UDPMavLinkPort(schema);
             udpGCMavLinkPort.setDebug(DEBUG_MODE);
-            udpGCMavLinkPort.setup(qgcIpAddress, qgcPeerPort);
+            udpGCMavLinkPort.setupClient(qgcIpAddress, qgcPeerPort);
             if (monitorMessage && PORT == Port.SERIAL) {
                 udpGCMavLinkPort.setMonitorMessageID(monitorMessageIds);
             }
@@ -284,7 +284,7 @@ public class Simulator implements Runnable {
 
             udpSDKMavLinkPort = new UDPMavLinkPort(schema);
             udpSDKMavLinkPort.setDebug(DEBUG_MODE);
-            udpSDKMavLinkPort.setup(sdkIpAddress, sdkPeerPort);
+            udpSDKMavLinkPort.setupClient(sdkIpAddress, sdkPeerPort);
             if (monitorMessage && PORT == Port.SERIAL) {
                 udpSDKMavLinkPort.setMonitorMessageID(monitorMessageIds);
             }
@@ -625,7 +625,7 @@ public class Simulator implements Runnable {
     }
 
     public final static String PRINT_INDICATION_STRING = "-m [<MsgID[, MsgID]...>]";
-    public final static String UDP_STRING = "-udp <mav ip>:<mav port>";
+    public final static String UDP_STRING = "-udp <mav port>";
     public final static String TCP_STRING = "-tcp <mav ip>:<mav port>";
     public final static String QGC_STRING = "-qgc <qgc ip address>:<qgc peer port>";
     public final static String SDK_STRING = "-sdk <sdk ip address>:<sdk peer port>";
@@ -714,14 +714,7 @@ public class Simulator implements Runnable {
                         continue;
                     }
                     try {
-                        // try to parse passed-in ports.
-                        String[] list = nextArg.split(":");
-                        if (list.length != 2) {
-                            System.err.println("Expected: " + UDP_STRING + ", got: " + Arrays.toString(list));
-                            return;
-                        }
-                        autopilotIpAddress = list[0];
-                        autopilotPort = Integer.parseInt(list[1]);
+                        autopilotPort = Integer.parseInt(nextArg);
                     } catch (NumberFormatException e) {
                         System.err.println("Expected: " + USAGE_STRING + ", got: " + e.toString());
                         return;
