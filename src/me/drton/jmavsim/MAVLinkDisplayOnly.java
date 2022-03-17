@@ -52,18 +52,18 @@ public class MAVLinkDisplayOnly extends MAVLinkHILSystemBase {
             }
             for (int i = 0; i < 4; ++i) {
                 quat[i] = ((Number)((Object[])msg.get("attitude_quaternion"))[i]).doubleValue();
-            }        
+            }
             lat=Math.toRadians(msg.getDouble("lat")*1e-7);
             lon=Math.toRadians(msg.getDouble("lon")*1e-7);
             alt=msg.getDouble("alt")*1e-3;
-        
-            Vector3d pos = new Vector3d(EARTH_RADIUS*(lat-lat0),EARTH_RADIUS*(lon-lon0)*Math.cos(lat0),alt0-alt);
+
+            Vector3d pos = new Vector3d(EARTH_RADIUS*(lat-lat0),2.0+EARTH_RADIUS*(lon-lon0)*Math.cos(lat0),alt0-alt);
             double [] euler = RotationConversion.eulerAnglesByQuaternion(quat);
-            Matrix3d dcm = new Matrix3d(RotationConversion.rotationMatrixByEulerAngles(euler[0],euler[1],euler[2]));   
+            Matrix3d dcm = new Matrix3d(RotationConversion.rotationMatrixByEulerAngles(euler[0],euler[1],euler[2]));
 
             vehicle.setControl(Arrays.asList(control));     // set 0 throttles
             vehicle.setPosition(pos);   // we want ideally a "local" pos groundtruth
-            vehicle.setRotation(dcm); 
+            vehicle.setRotation(dcm);
         }
     }
 
