@@ -41,10 +41,10 @@ public class Visualizer3D extends JFrame {
 
     public static final String    TEX_DIR = "environment/";  // folder for all environment textures
 
-    public static final String    SKY_TEXTURE = "HDR_040_Field_Bg.jpg";
+    public static final String    SKY_TEXTURE = "warehouse.jpg";
     //public static final String    SKY_TEXTURE = "HDR_111_Parking_Lot_2_Bg.jpg";
     // the following has a lower resolution and reduces memory usage
-    public static final String    SKY_TEXTURE_LOW_RES = "earth3.jpg";
+    public static final String    SKY_TEXTURE_LOW_RES = "warehouse.jpg";
 
     public static final String    GND_TEXTURE = "concrete.jpg";
     //public static final String    GND_TEXTURE = "ground.jpg";
