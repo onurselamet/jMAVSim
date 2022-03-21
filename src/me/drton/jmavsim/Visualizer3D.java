@@ -46,7 +46,7 @@ public class Visualizer3D extends JFrame {
     // the following has a lower resolution and reduces memory usage
     public static final String    SKY_TEXTURE_LOW_RES = "earth3.jpg";
 
-    public static final String    GND_TEXTURE = "grass3.jpg";
+    public static final String    GND_TEXTURE = "concrete.jpg";
     //public static final String    GND_TEXTURE = "ground.jpg";
     public static final String    COMPASS_IMG = "compass_rose.png";  // for overlay HUD
     public static final Dimension WINDOW_SIZE = new Dimension(1024,
