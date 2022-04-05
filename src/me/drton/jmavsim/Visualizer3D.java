@@ -68,8 +68,8 @@ public class Visualizer3D extends JFrame {
     private float defaultDZDistance =
         25.0f;  // [m] distance to object at which dynamic zoom is activated
     private float manZoomStep = 0.1f;  // manual zoom steps as fraction of current zoom level
-    private Vector3d viewerGroundOffset = new Vector3d(-5.0, 0.0,
-                                                       -1.7);  // origin of ground-based fixed view
+    private Vector3d viewerGroundOffset = new Vector3d(-7.0, 0.0,
+                                                       -0.4);  // origin of ground-based fixed view
 
 
     private final World world;
@@ -654,7 +654,7 @@ public class Visualizer3D extends JFrame {
                 if (this.viewType != ViewTypes.VIEW_FPV && vehicleViewObject != null) {
                     this.viewType = ViewTypes.VIEW_FPV;
                     this.setViewerPositionObject(vehicleViewObject);
-                    this.setViewerPositionOffset(new Vector3d(-0.0f, 0.0f, -0.3f));   // Offset from vehicle center
+                    this.setViewerPositionOffset(new Vector3d(-0.8f, 0.0f, -0.4f));   // Offset from vehicle center
                 }
                 break;
 
