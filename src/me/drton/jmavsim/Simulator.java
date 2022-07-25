@@ -69,7 +69,7 @@ public class Simulator implements Runnable {
     public static final int    DEFAULT_SERIAL_BAUD_RATE = 230400;
     public static final String LOCAL_HOST = "127.0.0.1";
     public static final String VEHICLE_MODEL_FW = "models/cessna.obj";
-    public static final String VEHICLE_MODEL_MC = "models/3dr_arducopter_quad_x.obj";
+    public static final String VEHICLE_MODEL_MC = "models/blimp_11m.obj";
     public static final String VEHICLE_MODEL_TS = "models/x_vert.obj";
     public static final String DEFAULT_GIMBAL_MODEL =
         "models/gimbal.png";  // blank for invisible gimbal
