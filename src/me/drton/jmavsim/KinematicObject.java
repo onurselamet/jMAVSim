@@ -35,6 +35,10 @@ public abstract class KinematicObject extends WorldObject {
     protected Transform3D transform;
     protected TransformGroup transformGroup;
     protected BranchGroup branchGroup;
+    protected Cylinder shade;
+    protected Vector3d shade_pos;
+    protected TransformGroup shade_transformGroup;
+    protected TransformGroup shade_transform;
 
     public KinematicObject(World world, boolean showGui) {
         super(world);
@@ -47,7 +51,21 @@ public abstract class KinematicObject extends WorldObject {
             transformGroup.setTransform(transform);
             branchGroup = new BranchGroup();
             branchGroup.addChild(transformGroup);
+
+            // transform group for the shadow
+            shade_transformGroup = new TransformGroup();
+            shade_transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+            shade_transform = new Transform3D();
+            shade_transformGroup.setTransform(shade_transform);
+            branchGroup.addChild(shade_transformGroup);
         }
+
+        // vehicle shadow
+        Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
+        Appearance app = new Appearance();
+        app.setMaterial(new Material(black, black, black, black,1.0f));
+        shade = new Cylinder(1.0,0.2,app);
+        shade_transformGroup.addChild(shade);
     }
 
     /**
@@ -93,6 +111,9 @@ public abstract class KinematicObject extends WorldObject {
         transform.setTranslation(position);
         transform.setRotationScale(rotation);
         transformGroup.setTransform(transform);
+
+        shade_transform.setTranslation(shade_pos);
+        shade_transformGroup.setTransform(transform);
     }
 
     public void setIgnoreGravity(boolean ignoreGravity) {
@@ -113,6 +134,7 @@ public abstract class KinematicObject extends WorldObject {
 
     public void setPosition(Vector3d position) {
         this.position = position;
+        this.shade_pos = new Vector3d(position(0), position(1), 0.0);
     }
 
     public Vector3d getVelocity() {

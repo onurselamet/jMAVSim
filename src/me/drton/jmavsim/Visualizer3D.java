@@ -327,6 +327,7 @@ public class Visualizer3D extends JFrame {
         group.addChild(b);
         group.compile();
         universe.addBranchGraph(group);
+
     }
 
     private Shape3D createFlatFloor(double height) {
