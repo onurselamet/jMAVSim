@@ -38,7 +38,7 @@ public abstract class KinematicObject extends WorldObject {
     protected Cylinder shade;
     protected Vector3d shade_pos;
     protected TransformGroup shade_transformGroup;
-    protected TransformGroup shade_transform;
+    protected Transform3D shade_transform;
 
     public KinematicObject(World world, boolean showGui) {
         super(world);
@@ -59,13 +59,6 @@ public abstract class KinematicObject extends WorldObject {
             shade_transformGroup.setTransform(shade_transform);
             branchGroup.addChild(shade_transformGroup);
         }
-
-        // vehicle shadow
-        Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
-        Appearance app = new Appearance();
-        app.setMaterial(new Material(black, black, black, black,1.0f));
-        shade = new Cylinder(1.0,0.2,app);
-        shade_transformGroup.addChild(shade);
     }
 
     /**
@@ -96,11 +89,17 @@ public abstract class KinematicObject extends WorldObject {
             BranchGroup bg = scene.getSceneGroup();
             transformGroup.addChild(bg);
 
+            // vehicle shadow
+            Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
+            Appearance app = new Appearance();
+            app.setMaterial(new Material(black, black, black, black,1.0f));
+            shade = new Cylinder(10.0,10.0);
+            shade_transformGroup.addChild(shade);
+
         } catch (IOException | IncorrectFormatException | ParsingErrorException e) {
             System.out.println("ERROR: could not load 3D model: " + modelFile);
             System.out.println("Error message:" + e.getLocalizedMessage());
         }
-
     }
 
     public BranchGroup getBranchGroup() {
@@ -113,7 +112,7 @@ public abstract class KinematicObject extends WorldObject {
         transformGroup.setTransform(transform);
 
         shade_transform.setTranslation(shade_pos);
-        shade_transformGroup.setTransform(transform);
+        shade_transformGroup.setTransform(shade_transform);
     }
 
     public void setIgnoreGravity(boolean ignoreGravity) {
@@ -134,7 +133,7 @@ public abstract class KinematicObject extends WorldObject {
 
     public void setPosition(Vector3d position) {
         this.position = position;
-        this.shade_pos = new Vector3d(position(0), position(1), 0.0);
+        this.shade_pos = position; // new Vector3d(position(0), position(1), 0.0);
     }
 
     public Vector3d getVelocity() {
